@@ -125,14 +125,20 @@ public class GLaDOS extends PircBot {
 				}
 				else
 				{
-					centralAIMatrix.addToIntellect(message);
-					centralAIMatrix.backUp();
+					if(!message.startsWith("http"))
+					{
+						centralAIMatrix.addToIntellect(message);
+						centralAIMatrix.backUp();
+					}
 				}
 			}
 			else
 			{
-				centralAIMatrix.addToIntellect(message);
-				centralAIMatrix.backUp();
+				if(!message.startsWith("http"))
+				{
+					centralAIMatrix.addToIntellect(message);
+					centralAIMatrix.backUp();
+				}
 			}
 		}
 	}
