@@ -1,15 +1,27 @@
 package se.bthstudent.sis.afk.GLaDOS;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.Calendar;
 import org.jibble.pircbot.*;
+import org.jibble.jmegahal.*;
 
 public class GLaDOS extends PircBot {
 
+	private JMegaHal hal;
+	private boolean talkBack = false;
 	private String [] quotes;
 	MessageParse messageParse;
 	
 	public GLaDOS()
 	{
 		this.setName("GLaDOStest");
+		this.hal = new JMegaHal();
+		hal.add("Hur är vädret idag?");
+		hal.add("ja, jag lyder mästare!");
+		hal = load();
 		
 		messageParse = new MessageParse();
 		
@@ -81,7 +93,6 @@ public class GLaDOS extends PircBot {
 
 
 				sendMessage(channel, sender + ": The time is now: " + time);
-				sendMessage(channel, sender + ": Sometime tomorrow, there will be cake.");
 			}
 
 			if(command[0].equalsIgnoreCase("GLaDOS")) 
@@ -90,8 +101,91 @@ public class GLaDOS extends PircBot {
 
 				sendMessage(channel, this.quotes[random]);
 			}
-
+			
+			if(command[0].equalsIgnoreCase("talk"))
+			{
+				setTalkBack(!isTalkBackEnabled());
+			}
+			
+			if(command[0].equalsIgnoreCase("save"))
+			{
+				save(hal);
+			}
 		}
+		else
+		{
+			if(message.toLowerCase().indexOf(this.getNick().toLowerCase()) >= 0) 
+			{
+				if(isTalkBackEnabled())
+				{
+					String reply = hal.getSentence();
+					sendMessage(channel, reply);
+				}
+				else
+				{
+					hal.add(message);
+					save(hal);
+				}
+			}
+			else
+			{
+				hal.add(message);
+				save(hal);
+			}
+		}
+	}
+	
+	
+	public void onRemove()
+	{
+		save(hal);
+		hal = null;
+	}
+
+	public static void save(JMegaHal obj)
+	{
+		FileOutputStream fos = null;
+		ObjectOutputStream out = null;
+		try{
+			fos = new FileOutputStream("GLaDOS.obj");
+			out = new ObjectOutputStream(fos);
+			out.writeObject(obj);
+			out.close();
+		}catch(IOException ex){
+			ex.printStackTrace();
+		}
+	}
+	
+	public static JMegaHal load()
+	{
+        FileInputStream fis;
+        ObjectInputStream in;
+        JMegaHal obj = null;
+        //
+        try{
+            fis = new FileInputStream("GLaDOS.obj");
+            in = new ObjectInputStream(fis);
+            obj = (JMegaHal)in.readObject();
+            in.close();
+        }catch(IOException ex){
+            ex.printStackTrace();
+        }catch(ClassNotFoundException ex){
+            ex.printStackTrace();
+        }
+        if(obj == null){
+            obj = new JMegaHal();
+        }
+        return obj;
+	}
+	
+	public boolean isTalkBackEnabled()
+	{
+		return talkBack;
+	}
+	
+	public void setTalkBack(boolean talkBack)
+	{
+		this.talkBack = talkBack;
 	}
 	
 
