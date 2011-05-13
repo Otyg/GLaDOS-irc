@@ -25,7 +25,7 @@ public class GLaDOSMain {
 			e.printStackTrace();
 		}
 		
-		//bot.joinChannel("#GLaDOStest");
-		bot.joinChannel("#arbetarbröder");
+		bot.joinChannel("#GLaDOStest");
+		//bot.joinChannel("#arbetarbröder");
 	}
 }
