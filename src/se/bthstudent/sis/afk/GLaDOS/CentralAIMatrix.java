@@ -48,6 +48,11 @@ public class CentralAIMatrix implements Serializable {
 		return this.hal.getSentence();
 	}
 	
+	public String specificResponse(String message)
+	{
+		return this.hal.getSentence(message);
+	}
+	
 	public void addToIntellect(String message)
 	{
 		this.hal.add(message);

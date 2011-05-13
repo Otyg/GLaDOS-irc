@@ -109,8 +109,19 @@ public class GLaDOS extends PircBot {
 			{
 				if(isTalkBackEnabled())
 				{
-					String reply = centralAIMatrix.response();
-					sendMessage(channel, reply);
+					int random = (int) (Math.random()* (double)this.quotes.length);
+					
+					if(random > (this.quotes.length/2))
+					{
+						String reply = centralAIMatrix.response();
+						sendMessage(channel, reply);
+					}
+					
+					else
+					{
+						String reply = centralAIMatrix.specificResponse(message);
+						sendMessage(channel, reply);
+					}
 				}
 				else
 				{
