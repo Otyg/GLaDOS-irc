@@ -11,8 +11,8 @@ public class GLaDOS extends PircBot {
 	
 	public GLaDOS()
 	{
-		this.setName("GLaDOStest");
-		
+		this.setName("GLaDOS");
+
 		messageParse = new MessageParse();
 		centralAIMatrix = new CentralAIMatrix();
 		

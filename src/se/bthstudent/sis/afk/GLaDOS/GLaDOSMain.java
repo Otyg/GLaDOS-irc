@@ -26,6 +26,6 @@ public class GLaDOSMain {
 		}
 		
 		bot.joinChannel("#GLaDOStest");
-		//bot.joinChannel("#arbetarbröder");
+		bot.joinChannel("#arbetarbröder");
 	}
 }
